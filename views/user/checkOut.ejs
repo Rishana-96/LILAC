@@ -16,18 +16,80 @@
                         <li class="breadcrumb-item active" aria-current="page">Checkout</li>
                     </ol>
                 </div><!-- End .container -->
-            </nav><!-- End .breadcrumb-nav -->
+            </nav>
 
             <div class="page-content">
             	<div class="checkout">
 	                <div class="container">
             			<div class="checkout-discount">
-            				<form action="#">
+                    <button class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#addCouponModal">View Available Coupons</button>
+
+
+                    <!---Modal-->
+                    <article class="modal fade" id="addCouponModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <section class="modal-dialog">
+                        <div class="modal-content">
+                          <header class="modal-header">
+                            <h2 class="modal-title" id="exampleModalLabel">COUPONS</h2>
+                          </header>
+                          <div class="modal-body">
+                            <% if(coupons.length > 0){
+                              coupons.forEach((coupon)=>{ %>
+                              <div class="container my-5">
+                                <div class="d-flex flex-column">
+                                  <div class="col-lg-6">
+                                    <div class="coupon p-3 bg-white">
+                                      <div class="row no-gutters">
+                                        <div class="col-lg-4 border-right d-flex flex-column justify-content-center">
+                                          <div class="d-flex flex-column align-items-center">
+                                            <img src="/userAssets/images/demos/demo-7/userlogo.jpg" style="width: 100px;" alt="">
+                                          </div>
+                                        </div>
+                                        <div class="col-lg-8">
+                                          <div>
+                                            <div class="d-flex flex-row justify-content-between off px-3 p-2">
+                                              <h3><%= coupon.discountPercentage %>%</h3>
+                                              <span>OFF</span>
+                                            </div>
+                                            <div class="d-flex flex-row justify-content-between off px-3 p-2">
+                                              <span>Promo code:</span>
+                                              <a onclick="copyCode('<%= coupon.couponCode %>')"><span class="border border-success px-3 rounded code"><%= coupon.couponCode %>|COPY</span></a>
+                                            </div>
+                                            <div class="d-flex flex-row justify-content-between off px-3 p-2">
+                                              <span>Purchase Above</span>
+                                              <span class="px-3"><%= coupon.criteria %> Rupees</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <% })
+                            } %>
+                            <button type="button" class="btn btn-dark m-5" data-bs-toggle="modal" aria-label="Close">Cancel</button>
+                          </div>
+                        </div>
+                      </section>
+                    </article>
+                    
+
+            				<!-- <form action="#">
         						<input type="text" class="form-control" required id="checkout-discount-input">
             					<label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
-            				</form>
+            				</form> -->
             			</div><!-- End .checkout-discount -->
-            			<form action="#">
+
+                  <div class="checkout-discount">
+            				<form action="" >
+        						<input type="text" class="form-control" placeholder="Click here to enter your code" required id="code">
+            				<a onclick="applycoupon($('#code').val())" type="Submit" class="btn btn-outline-danger">APPLY COUPON</a>
+							</form>
+            			</div>
+
+
+            			<form action=" " id="checkout">
 		                	<div class="row">
 		                		<div class="col-lg-9">
 		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
@@ -46,7 +108,8 @@
 
                                                         <div class="card card-dashboard  ">
                                                         <div class="card-body ">
-                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" ><br>
+                                                        <input class="form-check-input" type="radio" name="selectAddress"
+														value="<%= address.userName %>,<%= address.mobile %>,<%= address.houseName %>,<%= address.city %>,<%= address.state %>,<%= address.pincode %>,<%= address.landmark %>" ><br>
                                                         <h3 class="card-title"> Address</h3><!-- End .card-title -->
                                             <ul>
                                                 <li>full Name : <span><%= address.userName %></span></li>
@@ -67,11 +130,7 @@
                         						})
                       							  }
                             					%>
-                                             
-                                                <!-- <div class="d-flex justify-content-end">
-                                                    <a href="/addAddress" type="button" class="btn btn-success"> Add Address</a>
-                                                
-                                                </div> -->
+
 		                					</div><!-- End .col-lg-12 -->
                                             
 		                				</div><!-- End .row -->
@@ -97,82 +156,53 @@
 		                							<td>₹ 80.00</td>
 		                						</tr>
 		                						<tr class="summary-total">
+		                							<td>Discount:</td>
+		                							<td>₹<span id="discount" name="amount">0.00</span></td>
+		                						</tr><!-- End .summary-total -->
+		                						<tr class="summary-total">
 		                							<td>Total:</td>
-		                							<td>₹ <%= totalAmount %>.00</td>
+		                							<td>₹<span id="total" name="amount"><%= totalAmount %>.00</span></td>
 		                						</tr><!-- End .summary-total -->
 		                					</tbody>
 		                				</table><!-- End .table table-summary -->
 
 		                				<div class="accordion-summary" id="accordion-payment">
 
-										    <!-- <div class="card">
-										        <div class="card-header" id="heading-1">
-										            <h2 class="card-title">
-										                <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
-										                    Direct bank transfer
-										                </a>
-										            </h2>
-										        </div>
-										        <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-payment">
-										        
-										        </div>
-										    </div> -->
-
-										    <!-- <div class="card">
-										        <div class="card-header" id="heading-2">
-										            <h2 class="card-title">
-										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
-										                    Check payments
-										                </a>
-										            </h2>
-										        </div>
-										        <div id="collapse-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-payment">
-										           
-										        </div>
-										    </div> -->
-
 										    <div class="card">
 										        <div class="card-header" id="heading-3">
 										            <h2 class="card-title">
-										                <!-- <a class="collapsed" type="radio">
-										                    Cash on delivery
-										                </a> -->
-														<input type="radio">    Cash on delivery
+										               
+														<input name="payment" id="COD" value="COD" type="radio">    Cash on delivery
 										            </h2>
 										        </div><!-- End .card-header -->
-										        <!-- <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment"> -->
+					
 										            
 										        </div><!-- End .collapse -->
 										    </div><!-- End .card -->
 
-										    <!-- <div class="card">
-										        <div class="card-header" id="heading-4">
-										            <h2 class="card-title">
-										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
-										                    PayPal 
-                                                            
-										                </a>
-										            </h2>
-										        </div>
-										        <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
-										           
-										        </div>
-										    </div> -->
+											<div class="accordion-summary" id="accordion-payment">										
+												<div class="card">
+													<div class="card-header" id="heading-3">
+														<h2 class="card-title">										                
+															<input type="radio" id="wallet" value="Wallet" name="payment">Wallet</h2>
+													</div><!-- End .card-header -->
+													</div><!-- End .collapse -->
+												</div><!-- End .card -->
 
-										    <!-- <div class="card">
-										        <div class="card-header" id="heading-5">
-										            <h2 class="card-title">
-										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
-										                    Credit Card (Stripe)
-										                    <img src="userAssets/images/payments-summary.png" alt="payments cards">
-										                </a>
-										            </h2>
-										        </div><!-- End .card-header -- -->
-										        <!-- <div id="collapse-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-payment"> -->
+												<div class="accordion-summary" id="accordion-payment">										
+													<div class="card">
+														<div class="card-header" id="heading-3">
+															<h2 class="card-title">										                
+																<input type="radio" id="onlinePayment" value="onlinePayment" name="payment">Razor Pay</h2>
+														</div><!-- End .card-header -->
+														</div><!-- End .collapse -->
+													</div><!-- End .card -->
+
+								
+			
 										           
-										        </div><!-- End .collapse --
-										    </div><!-- End .card --
-										</div><!-- End .accordion -->
+										        </div>
+										
 
 		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
 		                					<span class="btn-text">Place Order</span>
@@ -189,8 +219,19 @@
                 </div><!-- End .checkout -->
             </div><!-- End .page-content -->
         </main><!-- End .main -->
+            
+        <style>
+          .coupon{
+            border-radius: 12px;
+            box-shadow: 5px 8px 10px #000000c0;
+            max-width: 535px;
+          }
+          .code:hover{background:green;color: #fff;cursor: pointer;}
+
+        </style>
+
 		<script>
-			function deleteAddress(addressId) {
+		function deleteAddress(addressId) {
 				
   Swal.fire({
     title: 'Are you sure?',
@@ -233,6 +274,188 @@
     }
   });
 }
+
+$("#checkout").submit((e) => {
+	
+      let address = $("input[name=selectAddress]:checked").val();
+      let total = document.getElementById("total").innerHTML;
+      let payment=$("input[name=payment]:checked").val();
+      e.preventDefault();
+      $.ajax({
+        url: "/placeOrder",
+        method: "post",
+        data: {
+          Total: total,
+          address: address,
+          payment:payment
+        },
+        success: (response) => {
+          if (response.codSuccess == true) {
+            swal.fire({
+              positon: 'center',
+              icon: "success",
+              title: 'Order Placed Successfully',
+              showConfirmButton: false,
+              showCancelButton: true,
+              cancelButtonText: "Go to Shop",
+            }).then((result) => {
+              if (result.dismiss === swal.DismissReason.cancel) {
+                // Redirect to the shop page
+                window.location.href = "/shop";
+              }
+            });
+          }else if(response.walletFailed === true){
+			swal.fire({
+				position:'center',
+				icon:'error',
+				title:'Insufficient Balance In Your Wallet',
+				showConfirmButton:false,
+				showCancelButton:false,
+				time:1500
+			})
+		  }else{
+            razorpayPayment(response.order);
+          }
+        }
+      });
+    });
+
+	function razorpayPayment(order){
+	var options = {
+    "key": "rzp_test_WoxlXNbksmmHJK", 
+    "amount": order.amount, 
+    "currency": "INR",
+    "name": "LILAC",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function(response) {
+       verifyPayment(response,order);
+    },
+    "prefill": { //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+        "name": "Gaurav Kumar", //your customer's name
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000" //Provide the customer's phone number for better conversion rates 
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open(); 
+}
+
+
+function verifyPayment(payment,order){
+	const amount2 =document.getElementById("total").innerHTML;
+	alert(amount2)
+	$.ajax({
+		url:"/verifyPayment",
+		method :"post",
+		data:{
+			payment:payment,
+			amount2:amount2,
+			order:order
+		},
+		success:(response) =>{
+			if(response.success){
+				swal.fire({
+					positon:'center',
+					icon:"success",
+					title:"Your Order Placed Successfully",
+					showConfirmButton:false,
+					showCancelButton:true,
+					cancelButtonText:"Back To Shop",
+
+				}).then((result)=>{
+					if(result.dismiss === swal.DismissReason.cancel){
+						window.location.href = "/shop";
+					}
+				});
+			}else{
+				swal.fire({
+            positon: 'center',
+            icon: "error",
+            title: 'payment failed',
+            showConfirmButton: false,
+            timer:1500,
+        })
+			}
+			
+		}
+	})
+}
+
+// COPY COUPON CODE
+
+function copyCode(code) {
+          navigator.clipboard.writeText(code)
+          .then(function() {
+             alert('Coupon code copied to clipboard!');
+          })
+         .catch(function() {
+             alert('Failed to copy coupon code.');
+      });
+      }
+
+      // COUPON APPLY
+
+function applycoupon(code){
+    event.preventDefault();
+  const amount = document.getElementById('total').innerHTML;
+  alert(amount)
+  $.ajax({
+    url:"/applyCoupon",
+    data:{  
+      code:code,
+      amount:amount
+    },
+    method:"post",
+    success:(response)=>{
+      if(response.user){
+        Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'This coupon already used!'
+            })
+      }else if(response.date){
+        console.log("coupon date expired");
+        Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'date expired!!!'
+            })
+      }else if(response.amountOkey){
+        document.getElementById('discount').innerHTML = response.disAmount
+        document.getElementById('total').innerHTML = response.disTotal
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Discount redeemed',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }else if(response.invalid){
+        Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Invalid Coupon!!!'
+            })
+      }else if(response.notEligible){
+    Swal.fire({
+      icon : 'error',
+      title : 'You Are Not Eligible For This Coupon' 
+    })
+  }
+    }
+  })
+}
+
+
+
 		</script>
         
 

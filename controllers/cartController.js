@@ -16,26 +16,26 @@ const loadCart = async (req, res) => {
 			if (cartData) {
 				if (cartData.products.length > 0) {
 					const products = cartData.products;
-					const total = await cartmodel.aggregate([
+				    const total = await cartmodel.aggregate([
 						{ $match: { userId: id } },
-						{ $unwind: '$products' },
-
+						{ $unwind: "$products" },
+			  
 						{
-							$group: {
-								_id: null,
-								total: {
-									$sum: {
-										$multiply: ['$product.productPrice', '$products.count'],
-									},
-								},
+						  $group: {
+							_id: null,
+							total: {
+							  $sum: {
+								$multiply: ["$products.productPrice", "$products.count"],
+							  },
 							},
+						  },
 						},
-					]);
+					  ]);
 
 					const Total = total.length > 0 ? total[0].total : 0;
-
 					const totalAmount = Total + 80;
 					const userId = userName._id;
+					
 
 					res.render('cart', {
 						products: products,

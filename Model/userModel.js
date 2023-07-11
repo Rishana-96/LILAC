@@ -25,6 +25,18 @@ const userSchema= new mongoose.Schema({
     is_block:{
         type:Boolean,
         default:false
+    },
+    is_verified:{
+        type:Boolean,
+        default:false
+    },
+    coupon:{
+        type:String,
+        default:''
+    },
+    wallet:{
+        type:Number,
+        default:0
     }
 })
 

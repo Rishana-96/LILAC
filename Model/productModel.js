@@ -10,6 +10,17 @@ const productSchemaa=new mongoose.Schema({
        type : Number,
        required:true
     },
+    offName:{
+        type:String,
+    },
+    offPercentage :{
+        type : Number,
+        default:0
+    },
+    offPrice : {
+        type: Number,
+        
+    },
     image:{
         type : Array,
         required: true
@@ -27,7 +38,7 @@ const productSchemaa=new mongoose.Schema({
         required:true,
     },
     StockQuantity:{
-        type :String,
+        type :Number,
         required:true,
     },
     Status:{

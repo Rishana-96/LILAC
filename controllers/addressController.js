@@ -1,25 +1,26 @@
 const session = require('express-session')
 const addressmodel = require('../Model/addressModel')
 const User = require('../Model/userModel')
+const cartmodel = require('../Model/cartModel')
 
 
 //=================== LOAD ADDRESS PAGE =====================
 
-const loadAddresses = async (req, res) => {
-    try {
-      if (req.session.user_id) {
-        const session = req.session.user_id;
-        const id = req.session.user_id;
-        const userdata = await User.findById({ _id: req.session.user_id });
-        res.render("address", { userData: userdata, session });
-      } else {
-        const session = null;
-        res.redirect("/home", { message: "please login" });
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+// const loadAddresses = async (req, res) => {
+//     try {
+//       if (req.session.user_id) {
+//         const session = req.session.user_id;
+//         const id = req.session.user_id;
+//         const userdata = await User.findById({ _id: req.session.user_id });
+//         res.render("address", { userData: userdata, session ,products});
+//       } else {
+//         const session = null;
+//         res.redirect("/home", { message: "please login" });
+//       }
+//     } catch (error) {
+//       console.log(error.message);
+//     }
+//   };
 
   //==================== LOAD ADD ADDRESS ====================
   const loadAddAddress = async (req, res) => {
@@ -111,7 +112,7 @@ const loadEditAddress = async (req, res) => {
     res.render("editAddress", {
       session,
       userData: userData,
-      address: address
+      address: address[0]
     });
   } catch (error) {
     console.log(error.message);
@@ -193,12 +194,12 @@ const deleteAddress = async (req,res) => {
 const showAddress = async(req,res) =>{
   try {
       const session = req.session.user_id
-      const userData = await usermodal.findOne ({_id:req.session.user_id});
+      const userData = await User.findOne ({_id:req.session.user_id});
       const addressData = await addressmodel.findOne({userId:req.session.user_id});
           if(session){
               if(addressData){
                   const address = addressData.addresses
-                  res.render('addresses',{userData:userData,session,address:address})
+                  res.render('address',{userData:userData,session,address:address})
 
               }else{
                   res.render('emptyAddress',{userData:userData,session})
@@ -215,7 +216,7 @@ const showAddress = async(req,res) =>{
 
 
   module.exports ={
-    loadAddresses,
+    //loadAddresses,
     loadAddAddress,
     addAddress,
     loadEditAddress,

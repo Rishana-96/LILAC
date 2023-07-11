@@ -1,8 +1,9 @@
-
+const dotenv = require('dotenv')
+dotenv.config();
 
 const connection=()=>{
     const mongoose = require("mongoose");
-    mongoose.connect("mongodb://127.0.0.1:27017/lilac");
+    mongoose.connect(process.env.mongo);
     }
     
     module.exports={

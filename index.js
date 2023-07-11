@@ -1,27 +1,47 @@
+const dotenv = require('dotenv')
+dotenv.config();
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/lilac');
-
+mongoose.connect(process.env.mongo);
 const express = require('express');
 const app = express();
-const path = require('path');
+const session = require("express-session")
+const nocache = require ("nocache")
 
-const morgan = require('morgan');
-// app.use(morgan('tiny'))
 
-//dmin_route.set('view engine','ejs')
 
-app.use(express.static(path.join(__dirname, 'public')));
+//================= SESSION ===============
 
-//for user routes
+app.use(
+    session({
+		secret: process.env.secret,
+		saveUninitialized: true,
+		resave: false,
+        //  cookie:{
+          //  maxAge: 604800000,
+       // },
+    })
+);
+app.use(nocache())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+
+const path =require('path')
+const publicPath = path.join(__dirname, 'public');
+app.use(express.static(publicPath));
+
+
+//====for user routes===
 
 const userRoute = require('./routes/userRoutes');
 app.use('/', userRoute);
 
-//for admin
+//=====for admin=======
 
 const adminRoute = require('./routes/adminRoutes');
 app.use('/admin', adminRoute);
 
-app.listen(4000, function () {
-	console.log('Server running');
-});
+//============ PORT ===========
+
+app.listen(process.env.portnumber, () => {
+	console.log("Server connected on port 5000")
+})

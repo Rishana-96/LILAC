@@ -14,42 +14,32 @@
                     <div class="card-body">
                       <h4 class="card-title">EDIT PRODUCT</h4>
                       
-                      <form class="form-sample" action="" method="post" enctype="multipart/form-data" >
+                      <form class="form-sample" action="" method="post" enctype="multipart/form-data" id="form" >
                         
                         <div class="row">
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                             <div class="form-group row">
                               <label class="col-sm-3 col-form-label">Product Name</label>
                               <div class="col-sm-9">
-                                <input type="text" class="form-control" name="productName" value="<%= products.productName %>"/>
+                                <input type="text" class="form-control" id="pname"  name="productName" value="<%= products.productName %>"/>
+                                <span class="text-danger " id="pnameError"></span>
                               </div>
                             </div>
                           </div>
-                          
                         </div>
                         <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">ideal for</label>
-                              <div class="col-sm-9">
-                                <select class="form-control" name="idealfor">
-                                  <option>Men</option>
-                                  <option>Woman</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                             <div class="form-group row">
                               <label class="col-sm-3 col-form-label">Price</label>
                               <div class="col-sm-9">
-                                <input class="form-control" name="price" value="<%= products.price %>"/>
+                                <input class="form-control" id="price" name="price" value="<%= products.price %>"/>
+                                <span class="text-danger " id="priceError"></span>
                               </div>
                             </div>
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                             <div class="form-group row">
                               <label class="col-sm-3 col-form-label">Category</label>
                               <div class="col-sm-9">
@@ -65,6 +55,10 @@
                                 </select>
                               </div>
                             </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
                             <div class="form-group">
                                 <label>File upload</label>
                                 
@@ -78,27 +72,16 @@
                               data-bs-target="#exampleModal">
                               edit image
                             </button>
-                            <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">brand</label>
-                              <div class="col-sm-9">
-                                <select class="form-control" name="brand">
-                                  <option>Fossil</option>
-                                  <option>Calvin Klein</option>
-                                  <option>Titan</option>
-                                  <option>Casio</option>
-                                </select>
-                              </div>
-                            </div>
                           </div>
-                          
-                        </div>
+                         </div>
                        
                         <div class="row">
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                             <div class="form-group row">
                               <label class="col-sm-3 col-form-label">stock Quantity</label>
                               <div class="col-sm-9">
-                                <input type="text" class="form-control" name="StockQuantity" value="<%= products.StockQuantity %>" />
+                                <input type="text" class="form-control" id="stock" name="StockQuantity" value="<%= products.StockQuantity %>" />
+                                <span class="text-danger " id="stockError"></span>
                               </div>
                             </div>
                           </div>
@@ -115,7 +98,16 @@
                             </div>
                             
                           </div>
-                        </div><br>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">offer % </label>
+                            <div class="col-sm-9">                               
+                              <input class="form-control" name="offPercentage" value="<%= products.offPercentage %>"> 
+                            </div>
+                          </div>
+                        </div>
+                        <br>
                         <button type="submit" class="btn btn-primary mr-2">Submit</button>
                              <a type="button" class="btn btn-dark" href="/admin/productList">Cancel</a>
                       </form>

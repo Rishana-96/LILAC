@@ -1,77 +1,83 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
-    <script src="validate.js"></script>
-    <style>
-        *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-body{
-    background-image: url(https://vergemagazine.co.uk/wp-content/uploads/2022/12/qin-fan-KfqgYzoH3Vk-unsplash.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-}
-.innerbox{
-    width: 100% !important;
-}
-.mainbox{
-    border-radius: 30px;
-    background-color: rgb(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.box{
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-    </style>
-    
-    <title>Admin Login Page</title>
-</head>
-<body>
-    <section class="form my-3 mx-3 py-5">
-        <div class="container">
-            <div class="row mainbox w-200 h-200 py-5 box">
-                <div class="col-lg-6 px-2 p-3 innerbox">
-                    <h1 class="font-weight-bold text-light py-3">ADMIN LOGIN</h1>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../adminAssets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="../adminAssets/vendors/css/vendor.bundle.base.css">
+
+
+    <link rel="stylesheet" href="../adminAssets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="../adminAssets/images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="row w-100 m-0">
+          <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+            <div class="card col-lg-4 mx-auto">
+              <div class="card-body px-5 py-5">
+                <h3 class="card-title text-left mb-3">Login</h3>
                 <form action="" method="post">
-                    <div class="form-row my-2">
-                        <div class="col-lg-10">
-                            <input type="text" name="email" placeholder="Enter Email" class="form-control my-3" required>
-                        </div>
+                  <div class="form-group">
+                    <label>email *</label>
+                    <input type="email" class="form-control p_input" name="email">
+                  </div>
+                  <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" class="form-control p_input" name="password">
+                  </div>
+                  <div class="form-group d-flex align-items-center justify-content-between">
+                    <div class="form-check">
                     </div>
-                    <div class="form-row my-2">
-                        <div class="col-lg-10">
-                            <input type="password" name="password" placeholder="Enter password" class="form-control my-3" required>
-                        </div>
-                    </div>
-                    <div class="form-row my-2">
-                        <div class="col-lg-10">
-                            <button type="submit" class="btn1 form-control bg-primary text-light" value="Login">Log In</button>
-                        </div>
-                        <div class="mb-3">
-                            <% if(message) { %>
-                                <p class="text-danger"><%= message %></p>
-                            <% } %>
-                        </div>
-                    </div>
+        
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
+                  </div>
+
+                  <% 
+
+				if(typeof message !== 'undefined' ){
+				  
+				  %>
+					  <div class="alert alert-danger" role="alert">
+						  <%= message %>
+					  </div>
+
+				  <% 
+
+				}
+		  %>
                 </form>
-                </div>
+              </div>
             </div>
+          </div>
+          <!-- content-wrapper ends -->
         </div>
-    </section>
-</body>
+        <!-- row ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <!-- <script src="../../assets/vendors/js/vendor.bundle.base.js"></script> -->
+    <script src="../adminAssets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../adminAssets/js/off-canvas.js"></script>
+    <script src="../adminAssets/js/hoverable-collapse.js"></script>
+    <script src="../adminAssets/js/misc.js"></script>
+    <script src="../adminAssets/js/settings.js"></script>
+    <script src="../adminAssets/js/todolist.js"></script>
+    <!-- endinject -->
+  </body>
 </html>
+
+

@@ -21,7 +21,7 @@ paymentId:{
     type:String
 },
 products: [{
-    productid:{
+    productId:{
         type:String,
         required:true,
         ref:"product"
@@ -37,13 +37,19 @@ products: [{
     totalPrice:{
         type:Number,
         default:0,
+    },
+    status:{
+        type:String,
+        default:"placed"
+    },
+    cancelReason:{
+        type:String,
+    },
+    returnReason:{
+        type:String,
     }
 }],
 totalAmount:{
-    type:Number,
-    required:true
-},
-Amount:{
     type:Number,
     required:true
 },
@@ -57,7 +63,6 @@ orderWallet:{
     type:Number
 },
 },
-// {timestamps:true}
 )
 
 const ordermodel = mongoose.model("order",orderSchema);
