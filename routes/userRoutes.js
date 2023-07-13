@@ -36,6 +36,10 @@ user_route.post('/login',userController.verifyLogin)
 user_route.get('/',userController.loadHome)
 user_route.get("/otp", userController.loadVerification);
 user_route.post("/otp", userController.verifyEmail);
+user_route.get("/forgotPassword", userController.forgotPassword);
+user_route.post("/forgotPassword", userController.forgotVerifyMail);
+user_route.post('/verifyForgot',userController.verifyForgotMail)
+user_route.post('/resubmitPassword',userController.resubmitPassword)
 user_route.get("/profile",auth.isLogin,userController.loadProfile)
 // user_route.get("/address",addressController.loadAddresses)
 user_route.get("/addAddress",auth.isLogin,addressController.loadAddAddress)
@@ -65,6 +69,12 @@ user_route.post('/returnOrder',orderController.returnOrder);
 user_route.post('/verifyPayment',auth.isLogin,orderController.verifyPayment)
 user_route.post("/form", userController.searchProduct)
 user_route.get("/priceSort/:id", userController.priceSort)
+
+
+
+user_route.get("/invoiceDownload/:id",orderController.loadInvoice)
+
+
 
 user_route.get('/wishlist',auth.isLogin,wishlistController.loadWishlist)
 user_route.post('/addtoWishlist',auth.isLogin,wishlistController.addToWishlist);

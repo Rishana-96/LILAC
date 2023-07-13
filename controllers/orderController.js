@@ -321,11 +321,11 @@ const loadOrderUser = async(req,res)=>{
 //=====LOAD ORDERS IN ADMIN SIDE===
 const loadOrderAdmin = async(req,res)=>{
   try {
-    
+    const session = req.session.Auser_id
     const id = req.session.user_id
-    const adminData = await User.findById({ _id: req.session.Auser_id });
+    const adminData = await User.findOne({is_admin:1});
+    await ordermodel.deleteMany({status:'pending'})
     const orders = await ordermodel.find().populate("products.productId")
-    console.log(adminData);
     if(orders.length > 0 ){
       res.render("orders",{orders:orders,admin:adminData})
     }else{
@@ -358,7 +358,6 @@ const CancelOrder = async (req, res) => {
     
     const id = req.body.orderid;
     const reason =req.body.reason
-    console.log(reason);
     const ordersId = req.body.ordersid
     const Id = req.session.user_id
     const userData = await ordermodel.findById(Id)
@@ -435,18 +434,20 @@ const changeStatus = async(req,res)=> {
 
 //======================RETURN ORDER===============
 
-const returnOrder = async(req,res)=>{
+const returnOrder = async(req,res,next)=>{
   try {
     const ordersId = req.body.ordersid;
     const Id = req.session.user_id
     const id = req.body.orderid
     const reason =req.body.reason
-    const userData =await ordermodel.findById(Id)
-    const orderData = await ordermodel.findOne({userId:Id,'products':id})
-    const product = orderData.products.find((Product)=>Product._id.toString()===id)
+    const orderData = await ordermodel.findOne({userId:Id,'products._id':id})
+    console.log(orderData);
+    const product = orderData.products.find((Product)=>Product._id.toString() === id)
+    console.log(product);
     const returnAmount = product.totalPrice
     const proCount = product.count
     const proId = product.productId
+    console.log('yighfyrg');
 
     const updatedOrder = await ordermodel.findOneAndUpdate(
       {
@@ -461,7 +462,7 @@ const returnOrder = async(req,res)=>{
       },
       {new : true}
     );
-    if(updateOrder){
+    if(updatedOrder){
       await productmodel.findByIdAndUpdate({_id:proId},{$inc:{StockQuantity:proCount}})
       await User.findByIdAndUpdate({_id:Id},{$inc:{wallet:returnAmount}})
       res.redirect("/vieworder/"+ordersId)
@@ -470,7 +471,7 @@ const returnOrder = async(req,res)=>{
     }
     
   } catch (error) {
-    console.log(error.message);
+    next(error)
   }
 }
 
@@ -498,6 +499,20 @@ const confirmReturn = async(req,res) => {
   }
 }
 
+const loadInvoice=async (req,res)=>{
+  try {
+    
+    const id = req.params.id;
+    const session = req.session.user_id
+    const userData = await User.findById({_id:session})
+    const orderData = await ordermodel.findOne({_id:id}).populate('products.productId');
+    const date = new Date()
+    res.render('invoice',{order:orderData,session,user:userData,date})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
   module.exports = {
     loadChekout,
@@ -510,5 +525,6 @@ const confirmReturn = async(req,res) => {
     verifyPayment,
     changeStatus,
     returnOrder,
-    confirmReturn
+    confirmReturn,
+    loadInvoice
   }

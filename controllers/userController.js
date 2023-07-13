@@ -15,9 +15,7 @@ const ejs = require("ejs")
 
 
 
-const dotenv = require('dotenv');
-const { log } = require('console');
-dotenv.config();
+
 
 let message;
 
@@ -51,6 +49,7 @@ const verifyLogin = async (req, res) => {
 		const password = req.body.password;
 	
 		const userData = await User.findOne({ email: email });
+		
 	
 		if (userData) {
 		  const passwordMatch = await bcrypt.compare(password, userData.password);
@@ -239,7 +238,7 @@ const loadShop=async(req,res,next) =>{
 
 
 		const page = parseInt(req.query.page) || 1;
-		const limit = 4;
+		const limit = 6;
 		const startIndex = (page - 1) * limit;
 		const endIndex = page * limit;
 		const productCount = productdata.length;
@@ -359,7 +358,6 @@ const verifyEmail = async (req, res) => {
 };
 
 const sendVerifyMail = async (name, email, otp) => {
-	console.log('otp' + otp);
 	try {
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
@@ -417,7 +415,7 @@ const filterByCategory =async (req,res,next)=>{
 	  const productData = await productmodel.find({category:id,Status:true}).populate('category')
       
 	  const page = parseInt(req.query.page) || 1;
-	  const limit = 4;
+	  const limit = 6;
 	  const startIndex = (page - 1) * limit;
 	  const endIndex = page * limit;
 	  const productCount = productData.length;
@@ -462,7 +460,7 @@ const filterByCategory =async (req,res,next)=>{
 	   const productData = await productmodel.find({ Status: true }).populate('category').sort({price: id})
   
 	   const page = parseInt(req.query.page) || 1;
-	  const limit = 4;
+	  const limit = 6;
 	  const startIndex = (page - 1) * limit;
 	  const endIndex = page * limit;
 	  const productCount = productData.length;
@@ -480,6 +478,97 @@ const filterByCategory =async (req,res,next)=>{
 	  next(error)
 	}
   }
+
+  //======================== LOAD FORGOT PASSWORD ===================
+const forgotPassword = async (req,res,next) =>{
+	try {
+	  res.render("forgotPassword")
+	} catch (error) {
+	  next(error);
+	}
+  }
+  
+
+  
+//======================== SEND OTP FORGOT PASSWORD ===================
+
+let otpv;
+let emailv;
+const forgotVerifyMail = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const userData = await User.findOne({ email: email });
+	console.log(userData);
+    const name = userData.name;
+    if (userData) {
+      randomnumber = Math.floor(Math.random() * 9000) + 1000;
+      otpv = randomnumber;
+      emailv = email; 
+	  console.log(otpv);
+      sendVerifyMail(name, email, randomnumber);
+      res.render("forgotPassword", { message: "please check your email" });
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+//======================== VERIFY OTP ===================
+
+const verifyForgotMail = async (req, res) => {
+	try {
+	  const otp = req.body.otp;
+	  if (otp == otpv) {
+		res.render("resubmitPassword");
+	  } else {
+		res.render("forgotPassword", { message: "otp is incorrect" });
+	  }
+	} catch (error) {
+	  console.log(error.message);
+	}
+  };
+
+  //======================== RESUBMIT PASSWORD ===================
+
+const resubmitPassword = async (req, res,next) => {
+	try {
+	  if (req.body.password != req.body.password2) {
+		res.render("resubmitPassword", {
+		  message: "Password Not Matching",
+		});
+		return;
+	  }
+	  const passwordValidate = await schema.validate(req.body.password);
+  
+	  if (!passwordValidate) {
+		res.render("resubmit-password", {
+		  message: "Password Must Be Strong",
+		});
+		return;
+	  }
+  
+	  const spassword = await securePassword(req.body.password);
+  
+	  const changePassword = await User.findOneAndUpdate(
+		{ email: emailv },
+		{ $set: { password: spassword } }
+	  );
+  
+	  if (changePassword) {
+		res.render("resubmitPassword", {
+		  message: "Password successfully changed",
+		});
+	  } else {
+		res.render("resubmitPassword", {
+		  message: "Please try again!!",
+		});
+	  }
+	} catch (error) {
+	  next(error);
+	}
+  };
+  
+
 
   
 
@@ -499,5 +588,9 @@ module.exports = {
 	filterByCategory,
 	searchProduct,
 	priceSort ,
+	forgotPassword,
+	forgotVerifyMail,
+	verifyForgotMail,
+	resubmitPassword
 	
 };
