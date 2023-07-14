@@ -423,6 +423,23 @@ const changeStatus = async(req,res)=> {
       },
       {new:true}
     );
+
+    if(statusChange == "Delivered"){
+      const updatedOrder = await ordermodel.findOneAndUpdate(
+        {
+          userId: userId,
+          'products._id': id
+        },
+        {
+          $set: {
+            'products.$.deliveryDate': new Date()
+          }
+        },
+        { new: true }
+      );
+    }
+
+
     if(updatedOrder){
       res.json({success:true})
     }

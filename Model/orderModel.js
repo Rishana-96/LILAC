@@ -47,6 +47,9 @@ products: [{
     },
     returnReason:{
         type:String,
+    },
+    deliveryDate:{
+        type:Date
     }
 }],
 totalAmount:{

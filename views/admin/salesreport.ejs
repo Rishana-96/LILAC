@@ -51,7 +51,7 @@
                             <% order.forEach((item, i) => { %>
                               <tr>
                                 <td><%= i + 1 %></td>
-                                <td><%= item.products.deliveryDate ? item.products.deliveryDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).replace(/\//g, '-') : '' %></td>
+                                <td><%= item.products.deliveryDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).replace(/\//g, '-')  %></td>
                                 <td><%= item.products.productDetails.productName %></td>
                                 <td><%= item.products.count %></td>
                                 <td><%= item.products.productPrice %></td>

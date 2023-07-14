@@ -46,14 +46,14 @@ const loadCart = async (req, res) => {
 						userData: userName,
 					});
 				} else {
-					res.render('CartEmpty', {
+					res.render('cartEmpty', {
 						userData: userName,
 						session,
 						message: 'No Products Added to Cart',
 					});
 				}
 			} else {
-				res.render('CartEmpty', {
+				res.render('cartEmpty', {
 					userData: userName,
 					session,
 					message: 'No Products Added to Cart',

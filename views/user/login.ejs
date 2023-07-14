@@ -63,22 +63,23 @@
 
               <a href="/forgotPassword" class="forgot-link">Forgot Your Password?</a>
               </div><!-- End .form-footer -->
-              <% 
-
-              if(typeof message !== 'undefined' ){
-                
-                %>
-                  <span class="alert alert-danger" role="alert">
-                    <%= message %>
-                  </span>
-      
-                <% 
-      
-              }
-            %>
-           
+             
             </form>
+            <% 
+  
+                        if(typeof message !== 'undefined' ){
+                          
+                          %>
+                            <P style="text-align: center;color: red;">
+                              <%= message %>
+                            </P>
+                
+                          <% 
+                
+                        }
+                      %>
             <div class="form-choice">
+             
               <p class="text-center">Don't have anccount</p>
               <div class="row">
                 <div class="col-sm-6">
