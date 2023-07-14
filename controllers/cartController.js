@@ -67,15 +67,7 @@ const loadCart = async (req, res) => {
 	}
 };
 
-//================== LOAD EMPTYCART PAGE ===============
 
-// const loadEmptyCart = async (req,res) =>{
-//     try {
-//         res.render("cartEmpty")
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
 
 const addToCart = async (req, res) => {
 	try {
@@ -98,7 +90,7 @@ const addToCart = async (req, res) => {
 			},
 			{ upsert: true, new: true }
 		);
-		// console.log(userName);
+		
 
 		const updatedProduct = cartData.products.find((product) => product.productId === productId);
 		const updatedQuantity = updatedProduct ? updatedProduct.count : 0;
@@ -209,7 +201,6 @@ const deletecart = async (req, res) => {
 
 module.exports = {
 	loadCart,
-	// loadEmptyCart
 	addToCart,
 	changeProductCount,
 	deletecart,

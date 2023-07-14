@@ -4,23 +4,7 @@ const User = require('../Model/userModel')
 const cartmodel = require('../Model/cartModel')
 
 
-//=================== LOAD ADDRESS PAGE =====================
 
-// const loadAddresses = async (req, res) => {
-//     try {
-//       if (req.session.user_id) {
-//         const session = req.session.user_id;
-//         const id = req.session.user_id;
-//         const userdata = await User.findById({ _id: req.session.user_id });
-//         res.render("address", { userData: userdata, session ,products});
-//       } else {
-//         const session = null;
-//         res.redirect("/home", { message: "please login" });
-//       }
-//     } catch (error) {
-//       console.log(error.message);
-//     }
-//   };
 
   //==================== LOAD ADD ADDRESS ====================
   const loadAddAddress = async (req, res) => {
@@ -216,7 +200,6 @@ const showAddress = async(req,res) =>{
 
 
   module.exports ={
-    //loadAddresses,
     loadAddAddress,
     addAddress,
     loadEditAddress,

@@ -25,15 +25,8 @@ const productSchemaa=new mongoose.Schema({
         type : Array,
         required: true
     },
-    // brand:{
-    //     type : String,
-    //     required: true
-    // },
-    // idealfor : {  //gender
-    //     type : String,
-    //     required:true,
-    // },
-    category : {     // type
+ 
+    category : {     
         type : String,
         required:true,
     },

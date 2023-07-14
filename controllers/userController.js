@@ -176,8 +176,7 @@ const loginLoad = async (req, res) => {
 
 const userLogout = async (req, res) => {
 	try {
-		// let cartData = await cartmodel.findOne({ userId: req.session.user_id }).populate('products.productId')
-		// const products = cartData.products;
+	
 		req.session.destroy();
 		const products=0
 		const session=null
@@ -187,41 +186,7 @@ const userLogout = async (req, res) => {
 	}
 };
 
-// const loadShop = async (req, res) => {
-// 	try {
-	
-		
-		
-// 		const productData = await productmodel.find({Status:true})
-//          if (req.session.user_id) {
-// 			const session = req.session.user_id;
-// 			const id = req.session.user_id
-// 			const catData = await categorymodel.find()
-// 			const userData = await User.findById({ _id: req.session.user_id })
-			
-			
-			
-// 			res.render('shop', {
-// 				userData: userData,
-// 				productData: productData,
-// 				category:catData,session
-// 			});
-				
-				
-			
-// 		} else {
-// 			const session = null;
-// 			const catData = await categorymodel.find()
-// 			const productData = await productmodel.find().limit(2);
-// 			res.render('shop', { session,
-// 				productData: productData,
-// 				category:catData});
-			 
-// 		}
-// 	} catch (error) {
-// 		console.log(error.message);
-// 	}
-// };
+
 
 const loadShop=async(req,res,next) =>{
 	try {
@@ -389,10 +354,9 @@ const loadProfile = async (req, res,next) => {
 			const session = req.session.user_id;
 			const id = req.session.user_id;
 			const userdata = await User.findById({ _id: req.session.user_id });
-			// let cartData = await cartmodel.findOne({ userId: req.session.user_id }).populate('products.productId')
-			// const products = cartData.products;
+		
 			res.render('account', { userData: userdata, session 
-				// ,products
+				
 			});
 		} else {
 			const session = null;
