@@ -35,31 +35,37 @@
             </div>
             <div class="header-center">
                 <a href="/home" class="logo">
-                    <img src="/adminAssets/images/file-icons/64/002-tool.png" alt="Molla Logo" width="120" height="67">
+                    <img src="/adminAssets/images/file-icons/64/001-interface-1.png" alt="Molla Logo" width="120" height="67">
                 </a>
             </div><!-- End .header-left -->
-
+            
             <div class="header-right">
-                <a href="/wishlist" class="wishlist-link">
-                    <i class="icon-heart-o"></i>
-                    
-                    <!-- <span class="wishlist-txt">WISHLIST</span> -->
-                </a>
-
                 <% if (session != null) { %>
+                    <a href="/wishlist" class="wishlist-link">
+                      <i class="icon-heart-o"></i>
+                      <!-- <span class="wishlist-txt">WISHLIST</span> -->
+                    </a>
+                  <% } else { %>
+                    <a onclick="plzlogin()" class="wishlist-link">
+                      <i class="icon-heart-o"></i>
+                    </a>
+                  <% } %>
+                  
+                  
+                  <% if (session != null) { %>
                     <div class="dropdown cart-dropdown">
-                        <a href="/cart" class="dropdown-toggle">
-                            <i class="icon-shopping-cart"></i>
-                        </a>
-    
+                      <a href="/cart" class="dropdown-toggle">
+                        <i class="icon-shopping-cart"></i>
+                      </a>
                     </div><!-- End .cart-dropdown -->
-                <% } else { %>
+                  <% } else { %>
                     <div class="dropdown cart-dropdown">
-                        <a onclick="plzlogin()" class="dropdown-toggle">
-                            <i class="icon-shopping-cart"></i>
-                        </a>
+                      <a onclick="plzlogin()" class="dropdown-toggle">
+                        <i class="icon-shopping-cart"></i>
+                      </a>
                     </div><!-- End .cart-dropdown -->
-                <% } %>
+                  <% } %>
+                  
 
 
                 <div class="dropdown cart-dropdown">
@@ -136,3 +142,79 @@
         </div><!-- End .container -->
     </div><!-- End .header-bottom -->
 </header><!-- End .header -->
+
+<script>
+
+    function addtocart(productid){
+     $.ajax({
+         url:"/addtocart",
+         method:"post",
+         data:{
+             id:productid
+         },
+         success:(response)=>{
+             if(response.success){
+                 swal.fire({
+                     positon:'center',
+                     icon:"success",
+                     title  : 'product added to cart',
+                     showConfirmButton:false,
+                     timer : 1500,
+                 })
+             }
+         }
+     })
+    }
+
+    function addtoWishlist(productid){
+     $.ajax({
+         url:"/addtoWishlist",
+         method:"post",
+         data:{
+             id:productid
+         },
+         success:(response)=>{
+             if(response.success){
+                 swal.fire({
+
+                     positon:'center',
+                     icon:"success",
+                     title  : 'product added to wishlist',
+                     showConfirmButton:false,
+                     timer : 1500,
+
+                 })
+             }
+//              else{
+//                 swal.fire({
+
+//                 positon:'center',
+//                 icon:"warning",
+//                 title  : 'product Quantity exceeded',
+//                 showConfirmButton:false,
+//                 timer : 1500,
+
+// })
+//              }
+         }
+         
+     })
+    }
+ 
+    function plzlogin(){
+     $.ajax({
+         success:(response)=>{
+             
+                 swal.fire({
+                     positon:'center',
+                    icon:"warning",
+                     title  : 'Please Login To Your Account',
+                     showConfirmButton:false,
+                     timer : 1500,
+                 })
+             
+         }
+     })
+    }
+ 
+ </script>
